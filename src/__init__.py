@@ -9,5 +9,5 @@ Sky()
 player = Player()
 goblin = Entity(model="quad",
                 texture="src/assets/goblin.png",
-                position=(1, -1, 2),
+                position=(0, -1, 2),
                 scale=(5, 5, 0))
