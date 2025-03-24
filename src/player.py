@@ -2,6 +2,8 @@ from ursina import Entity
 
 class Player:
     def __init__(self):
+        self.life = 3
+        self.scores = 0
         self.is_attacking = False
         self.is_defending = False
     
