@@ -1,44 +1,26 @@
-from ursina import Ursina, Entity, mouse, Sky
+from src import *
 
-app = Ursina()
-mouse.visible = False
-Sky()
-
-# Declarando Entidades
-sword = Entity(model="quad",
-               texture="assets/sword.png",
-               position=(5, -1, 0),
-               scale=(3, 7, 0))
-
-shield = Entity(model="quad",
-                texture="assets/shield.png",
-                position=(-5, -2, 0),
-                scale=(6, 6, 0))
-
-goblin = Entity(model="quad",
-                texture="assets/goblin.png",
-                position=(1, -1, 2),
-                scale=(5, 5, 0))
-                
 def input(key):
     """Método de verificação de inputs do jogo."""
-    if (key == "right mouse up" and
-        not key == "left mouse up"):
-        sword.animate_rotation((-25, -25, -35), duration=0.2)
-        sword.animate_position((2, 0, 0), duration=0.2)
+    if (not player.is_attacking and 
+        player.sword.position == (5, -1, 0)):
+        
+        if (key == "right mouse down" and
+            not key == "left mouse down"):
+            player.is_attacking = True
+            player.is_defending = False
+       
+    if (not player.is_defending and 
+        player.shield.position == (-5, -2, 0)):
+        
+        if (key == "left mouse down" and
+            not key == "right mouse down"):
+            player.is_defending = True
+            player.is_attacking = False
+    
+    # Atualiza as ações do player a cada interação/Click
+    player.update()
 
-    elif (key == "left mouse up" and
-        not key == "right mouse up"):
-        shield.animate_rotation((-20, -20, 0), duration=0.2)
-        shield.animate_position((-2, 0, 0), duration=0.2)
-
-    else:
-        sword.animate_rotation((0, 0, 0), duration=0.2)
-        sword.animate_position((5, -1, 0), duration=0.2)
-
-        shield.animate_rotation((0, 0, 0), duration=0.2)
-        shield.animate_position((-5, -2, 0), duration=0.2)
-
-# Verificação direta do modulo
+# Verificação de execução direta do modulo
 if __name__ == "__main__":
     app.run()
