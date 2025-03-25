@@ -41,7 +41,7 @@ class Player:
             self.is_attacking = False
     
     def defense(self):
-        camera.animate_rotation((-2, 2, 0), duration=0.2)
+        camera.animate_rotation((-2, 2, 0), duration=0.4)
         self.shield.animate_rotation((-20, -20, -20), duration=0.2)
         self.shield.animate_position((-2, 0, 0), duration=0.2)
         
