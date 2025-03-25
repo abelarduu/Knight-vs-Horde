@@ -30,19 +30,24 @@ class Player:
         self.shield.animate_position(INITIAL_SHIELD_POSITION, duration=0.2)
     
     def attack(self):
-        self.sword.animate_rotation((-25, 25, -25), duration=0.2)
+        camera.animate_rotation((2, -2, 0), duration=0.4)
+        self.sword.animate_rotation((-25, 35, -25), duration=0.2)
         self.sword.animate_position((2, 0, 0), duration=0.2)
         
-        if (self.sword.rotation == (-25, 25, -25) and 
+        
+        if (self.sword.rotation == (-25, 35, -25) and 
             self.sword.position == (2, 0, 0)):
+            camera.animate_rotation((0, 0, 0), duration=0.4)
             self.is_attacking = False
     
     def defense(self):
+        camera.animate_rotation((-2, 2, 0), duration=0.2)
         self.shield.animate_rotation((-20, -20, -20), duration=0.2)
         self.shield.animate_position((-2, 0, 0), duration=0.2)
         
         if (self.shield.rotation == (-20, -20, -20) and 
             self.shield.position == (-2, 0, 0)):
+            camera.animate_rotation((0, 0, 0), duration=0.4)
             self.is_defending = False
         
     def update(self):
@@ -55,3 +60,4 @@ class Player:
             self.defense()
         else:
             self.idle_shield()
+            
