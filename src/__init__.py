@@ -1,7 +1,9 @@
 from ursina import *
 from src.player import Player
+from src.mob import Mob
 
 app = Ursina()
+window.title = "Knight Vs Horde"
 mouse.visible = False
 Sky()
 
@@ -19,10 +21,6 @@ grass = Entity(model="quad",
 # Declarando Entidades
 player = Player()
 
-goblin = Entity(model="quad",
-                texture="src/assets/goblin.png",
-                position=(0, -1, 2),
-                scale=(5, 5, 0))
-                
-                                
-
+goblin = Mob(animation_paths=["src/assets/goblin.gif"])
+goblin.position=(0, -1, 2)
+goblin.scale=(5, 5, 0)
