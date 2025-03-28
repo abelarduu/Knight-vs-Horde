@@ -21,6 +21,9 @@ def input(key):
     # Atualiza as ações do player a cada interação/Click
     player.update()
     
+def update():
+    goblin.update()
+    
 # Verificação de execução direta do modulo
 if __name__ == "__main__":
     app.run()
