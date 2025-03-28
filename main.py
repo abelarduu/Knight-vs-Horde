@@ -18,10 +18,12 @@ def input(key):
             player.is_defending = True
             player.is_attacking = False
     
-    # Atualiza as ações do player a cada interação/Click
+    # Atualiza as ações do player a cada interação/click
     player.update()
     
 def update():
+    """Método de atualização de interface a cada frame."""
+    # Atualiza as ações do Goblin a cada frame/quadro
     goblin.update()
     
 # Verificação de execução direta do modulo
