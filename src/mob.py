@@ -5,6 +5,8 @@ class Mob(Animation):
         self.life = 3
         self.is_attacking = False
         self.is_defending = False
+        self.attacked = False
+        self.defended = False
         self.animation_paths = animation_paths
         self.anim = str(self.animation_paths[0])
         super().__init__(self.anim)
@@ -17,10 +19,22 @@ class Mob(Animation):
         """Define a animação de ataque do Mob, se existir."""
         self.anim = str(self.animation_paths[1])
         
-    def dodge(self):
+    def defense(self):
         """Define a animação de esquiva do Mob, se existir."""
-        self.anim = str(self.animation_paths[2])
+        self.attacked = True
+        #self.anim = str(self.animation_paths[2])
+        
+    def hurt(self):
+        """Define a animação de esquiva do Mob, se existir."""
+        self.life -= 1
+        #self.anim = str(self.animation_paths[3])
 
     def update(self):
         """Atualiza a animação do Mob conforme seu estado."""
-        self.idle()
+        if self.life > 0:
+            if self.is_attacking:
+                self.attack()
+            elif self.is_defending:
+                self.defense()
+            else:
+                self.idle()
