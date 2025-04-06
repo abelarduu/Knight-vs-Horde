@@ -5,7 +5,7 @@ INITIAL_SHIELD_POSITION = camera.position + (-5, -2, 0)
 
 class Player:
     def __init__(self):
-        self.life = 3
+        self.life = 100
         self.scores = 0
         self.is_attacking = False
         self.is_defending = False
@@ -60,10 +60,10 @@ class Player:
             self.defended = True
             self.is_defending = False
             
-    def hurt(self):
-        """Define a animação de esquiva do Mob, se existir."""
+    def hurt(self, damage):
+        """Executa a animação de dano e adiciona danos."""
         camera.animate_rotation((-2, 2, 0), duration=0.4)
-        self.life -= 1
+        self.life -= damage
         
         if (self.shield.rotation == (-20, -20, -20) and 
             self.shield.position == (-2, 0, 0)):

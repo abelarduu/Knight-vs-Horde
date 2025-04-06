@@ -2,7 +2,7 @@ from ursina import Animation
 
 class Mob(Animation):
     def __init__(self, animation_paths , *args):
-        self.life = 3
+        self.life = 50
         self.is_attacking = False
         self.is_defending = False
         self.attacked = False
@@ -24,9 +24,9 @@ class Mob(Animation):
         self.attacked = True
         #self.anim = str(self.animation_paths[2])
         
-    def hurt(self):
+    def hurt(self, damage):
         """Define a animação de esquiva do Mob, se existir."""
-        self.life -= 1
+        self.life -= damage
         #self.anim = str(self.animation_paths[3])
 
     def update(self):
