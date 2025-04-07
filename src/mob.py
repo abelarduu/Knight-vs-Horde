@@ -1,7 +1,9 @@
-from ursina import Animation
+from ursina import Animation, color
+from ursina.prefabs.health_bar import HealthBar
 
 class Mob(Animation):
     def __init__(self, animation_paths , *args):
+        self.MAX_LIFE = 50
         self.life = 50
         self.is_attacking = False
         self.is_defending = False
@@ -31,6 +33,11 @@ class Mob(Animation):
 
     def update(self):
         """Atualiza a animação do Mob conforme seu estado."""
+        health_bar = HealthBar(max_value=self.MAX_LIFE,
+                               value=self.life,
+                               bar_color=color.red,
+                               x=-0.25, y=0.25)
+
         if self.life > 0:
             if self.is_attacking:
                 self.attack()

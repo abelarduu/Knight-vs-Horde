@@ -1,10 +1,12 @@
-from ursina import Entity, camera, mouse
+from ursina import Sprite, color, camera, mouse
+from ursina.prefabs.health_bar import HealthBar
 
 INITIAL_SWORD_POSITION = camera.position + (5, -1, 0)
 INITIAL_SHIELD_POSITION = camera.position + (-5, -2, 0)
 
 class Player:
     def __init__(self):
+        self.MAX_LIFE = 100
         self.life = 100
         self.scores = 0
         self.is_attacking = False
@@ -12,16 +14,14 @@ class Player:
         self.attacked = False
         self.defended = False
 
-        self.sword = Entity(model="quad",
-                       texture="src/assets/images/sword.png",
-                       position= INITIAL_SWORD_POSITION,
-                       scale=(3, 7, 0))
+        self.sword = Sprite(texture="src/assets/images/sword.png",
+                            position= INITIAL_SWORD_POSITION,
+                            scale=(5, 9, 0))
 
-        self.shield = Entity(model="quad",
-                        texture="src/assets/images/shield.png",
-                        position= INITIAL_SHIELD_POSITION,
-                        scale=(6, 6, 0))
-        
+        self.shield = Sprite(texture="src/assets/images/shield.png",
+                             position= INITIAL_SHIELD_POSITION,
+                             scale=(11, 11, 0))
+
     def idle_sword(self):
         """Restaura a posição e rotação da espada."""
         self.sword.animate_rotation((0, 0, 0), duration=0.2)
@@ -50,7 +50,8 @@ class Player:
     def defense(self):
         """Executa a animação de defesa com escudo e rotação da câmera."""
         self.is_defending = True
-        camera.animate_rotation((-2, 2, 0), duration=0.4)
+        #camera.animate_rotation((-2, 2, 0), duration=0.4)
+        camera.animate_rotation((2, -2, 0), duration=0.4)
         self.shield.animate_rotation((-20, -20, -20), duration=0.2)
         self.shield.animate_position((-2, 0, 0), duration=0.2)
         
@@ -71,6 +72,11 @@ class Player:
         
     def update(self):
         """Atualização do Player"""
+        health_bar = HealthBar(max_value=self.MAX_LIFE,
+                               value=self.life,
+                               bar_color=color.green,
+                               x=-0.25, y=-0.45)
+
         if self.life > 0:
             if self.is_attacking:
                 self.attack()
