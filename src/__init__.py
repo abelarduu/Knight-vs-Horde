@@ -4,7 +4,7 @@ from src.mob import Mob
 
 app = Ursina()
 window.title = "Knight Vs Horde"
-#window.fullscreen = True
+window.fullscreen = True
 mouse.visible = False
 Sky()
 
