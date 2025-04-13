@@ -1,43 +1,47 @@
-from ursina import Animation, color
-from ursina.prefabs.health_bar import HealthBar
+from ursina import Entity, SpriteSheetAnimation
 
-class Mob(Animation):
-    def __init__(self, animation_paths , *args):
+class Mob:
+    def __init__(self, spritesheet, animations):
         self.MAX_LIFE = 50
         self.life = 50
         self.is_attacking = False
         self.is_defending = False
         self.attacked = False
         self.defended = False
-        self.animation_paths = animation_paths
-        self.anim = str(self.animation_paths[0])
-        super().__init__(self.anim)
-    
+        self.position = (0, 0, 0)
+        self.scale = (0, 0, 0)
+        self.spritesheet = spritesheet
+        self.animations = animations
+        self.animated_sprite()
+        self.idle()
+
     def idle(self):
         """Define a animação do Mob para a posição de descanso."""
-        self.anim = str(self.animation_paths[0])
+        self.anim.play_animation('idle')
     
     def attack(self):
-        """Define a animação de ataque do Mob, se existir."""
-        self.anim = str(self.animation_paths[1])
+        """Define a animação de ataque do Mob."""
+        self.anim.play_animation('attack')
         
     def defense(self):
-        """Define a animação de esquiva do Mob, se existir."""
-        self.attacked = True
-        #self.anim = str(self.animation_paths[2])
+        """Define a animação de esquiva do Mob."""
+        self.anim.play_animation('defense')
         
     def hurt(self, damage):
-        """Define a animação de esquiva do Mob, se existir."""
+        """Define a animação de esquiva do Mob."""
+        self.anim.play_animation('hit')
         self.life -= damage
-        #self.anim = str(self.animation_paths[3])
+
+    def animated_sprite(self):
+        """gera a animação do Mob."""
+        self.anim = SpriteSheetAnimation(texture= self.spritesheet,
+                                        animations= self.animations,
+                                        tileset_size=(6,5),
+                                        fps=6,
+                                        loop=True)
 
     def update(self):
         """Atualiza a animação do Mob conforme seu estado."""
-        health_bar = HealthBar(max_value=self.MAX_LIFE,
-                               value=self.life,
-                               bar_color=color.red,
-                               x=-0.25, y=0.25)
-
         if self.life > 0:
             if self.is_attacking:
                 self.attack()

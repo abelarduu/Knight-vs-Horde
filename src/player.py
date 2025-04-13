@@ -1,5 +1,4 @@
-from ursina import Sprite, color, camera, mouse
-from ursina.prefabs.health_bar import HealthBar
+from ursina import Entity, Sprite, camera
 
 INITIAL_SWORD_POSITION = camera.position + (5, -1, 0)
 INITIAL_SHIELD_POSITION = camera.position + (-5, -2, 0)
@@ -26,13 +25,11 @@ class Player:
         """Restaura a posição e rotação da espada."""
         self.sword.animate_rotation((0, 0, 0), duration=0.2)
         self.sword.animate_position(INITIAL_SWORD_POSITION, duration=0.2)
-        camera.animate_rotation((0, 0, 0), duration=0.4)
 
     def idle_shield(self):
         """Restaura a posição e rotação do escudo."""
         self.shield.animate_rotation((0, 0, 0), duration=0.2)
         self.shield.animate_position(INITIAL_SHIELD_POSITION, duration=0.2)
-        camera.animate_rotation((0, 0, 0), duration=0.4)
 
     def attack(self):
         """Executa a animação de ataque com espada e rotação da câmera."""
@@ -50,8 +47,7 @@ class Player:
     def defense(self):
         """Executa a animação de defesa com escudo e rotação da câmera."""
         self.is_defending = True
-        #camera.animate_rotation((-2, 2, 0), duration=0.4)
-        camera.animate_rotation((2, -2, 0), duration=0.4)
+        camera.animate_rotation((-2, 2, 0), duration=0.4)
         self.shield.animate_rotation((-20, -20, -20), duration=0.2)
         self.shield.animate_position((-2, 0, 0), duration=0.2)
         
@@ -72,18 +68,20 @@ class Player:
         
     def update(self):
         """Atualização do Player"""
-        health_bar = HealthBar(max_value=self.MAX_LIFE,
-                               value=self.life,
-                               bar_color=color.green,
-                               x=-0.25, y=-0.45)
-
         if self.life > 0:
+            # Ataque
             if self.is_attacking:
                 self.attack()
             else:
                 self.idle_sword()
 
+            # Defesa
             if self.is_defending:
                 self.defense()
             else:
                 self.idle_shield()
+
+            # Camera idle
+            if (not self.is_attacking and
+                not self.is_defending):
+                camera.animate_rotation((0, 0, 0), duration=0.4)
