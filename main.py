@@ -7,21 +7,31 @@ def input(key):
             player.is_attacking = True
             goblin.was_hurt= True
 
-    elif (not player.is_defending and 
-        key == "left mouse down"):
+    if (not player.is_defending and 
+          key == "left mouse down"):
             player.is_defending = True
             goblin.was_hurt= True
 
-    # Atualiza as ações do Player a cada interação/click
+    if (player.is_attacking and 
+        key == "right mouse up"):
+            player.is_attacking = False
+
+    if (player.is_defending and 
+        key == "left mouse up"):
+            player.is_defending = False
+
+def update():
+    """Metodo de atualização da interface a cada quadro/frame"""
+
+    # Atualizando as ações do Player
     player.update()
     if (player.attacked and
         not goblin.defended):
         goblin.hurt(damage=10)
-        player.hurt(damage=55)
+        #player.hurt(damage=55) #Testando do player.die()
         player.attacked = False
 
-def update():
-    # Atualiza as ações do Goblin a cada interação/click
+    # Atualizando as ações do Goblin
     goblin.update()
     if (goblin.attacked and
         not player.defended):
@@ -30,8 +40,8 @@ def update():
     else:
         player.defended = False
 
-    #print(goblin.is_attacking, goblin.is_defending)
-    print(goblin.life)
+    if player.life < 0:
+        Text(parent= camera, text="GAME OVER", scale=6, position= 0)
 
 # Verificação de execução direta do módulo
 if __name__ == "__main__":

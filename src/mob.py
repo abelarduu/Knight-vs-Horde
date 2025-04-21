@@ -16,7 +16,6 @@ class Mob(Entity):
         self.spritesheet = spritesheet
         self.animations = animations
         self.animated_sprite()
-        self.idle()
 
     def idle(self):
         """Define a animação do Mob para a posição de descanso."""
@@ -46,12 +45,14 @@ class Mob(Entity):
                                          animations= self.animations,
                                          tileset_size=(6,5),
                                          loop=True,
-                                         fps=5)
+                                         fps=5,
+                                         postion= self.position,
+                                         scale= self.scale)
 
     def change_action(self):
         random_number = randint(0,1)
-
         if random_number == 0:
+
             self.is_attacking = True
             self.is_defending = False
         
@@ -62,15 +63,15 @@ class Mob(Entity):
     def update(self):
         """Atualiza a animação do Mob conforme seu estado."""
         if self.life > 0:
+            if self.was_hurt:
+                self.change_action()
+                self.was_hurt = False
+
             if self.is_attacking:
                 self.attack()
             elif self.is_defending:
                 self.defense()
             else:
                 self.idle()
-
-            if self.was_hurt:
-                self.change_action()
-                self.was_hurt = False
         else:
             self.anim.enabled = False

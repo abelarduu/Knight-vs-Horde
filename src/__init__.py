@@ -19,10 +19,10 @@ grass = Sprite(texture=f"{DIR_ASSETS}/grass.png",
 player = Player()
 
 goblin = Mob(spritesheet=f"{DIR_ASSETS}/goblin.png",
-    animations={'idle': ((0, 0), (5, 1)),
-                'attack': ((0, 2), (5, 4)),
-                'defense': ((0, 2), (5, 4)),
-                'hit': ((0, 2), (5, 4))})
+             animations={'idle': ((0, 0), (5, 1)),
+                         'attack': ((0, 2), (5, 4)),
+                         'defense': ((0, 2), (5, 4)),
+                         'hit': ((0, 2), (5, 4))})
 
-goblin.anim.position=(0, -1, 2)
-goblin.anim.scale=(5, 5, 0)
+goblin.position=(0, -1, 2)
+goblin.scale=(5, 5, 0)
